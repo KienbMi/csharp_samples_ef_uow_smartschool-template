@@ -1,4 +1,5 @@
-﻿using SmartSchool.Core.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartSchool.Core.Contracts;
 using SmartSchool.Core.Entities;
 using System.Linq;
 
@@ -18,5 +19,12 @@ namespace SmartSchool.Persistence
             _dbContext.Measurements.AddRange(measurements);
         }
 
-   }
+        public int GetCountLivingRoom()
+        {
+            return _dbContext.Measurements
+                .Include(m => m.Sensor)
+                .Where(m => m.Sensor.Location.Equals("livingroom") && m.Sensor.Name.Equals("temperature"))
+                .Count();
+        }
+    }
 }

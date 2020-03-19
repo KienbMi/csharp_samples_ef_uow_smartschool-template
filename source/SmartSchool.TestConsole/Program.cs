@@ -40,7 +40,7 @@ namespace SmartSchool.TestConsole
 				Console.WriteLine("--------------------------------------------");
 				Console.WriteLine();
 
-				var count = 0;   // TODO
+				var count = unitOfWork.MeasurementRepository.GetCountLivingRoom();
 				Console.WriteLine($"Anzahl Messwerte für Sensor temperature in location livingroom: {count}");
 				Console.WriteLine();
 
