@@ -44,16 +44,21 @@ namespace SmartSchool.TestConsole
 				Console.WriteLine($"Anzahl Messwerte für Sensor temperature in location livingroom: {count}");
 				Console.WriteLine();
 
-				var greatestmeasurements = new Measurement[0];  // TODO
+				var greatestmeasurements = unitOfWork.MeasurementRepository.GetGreatestMeasurements();
 				Console.WriteLine("Letzte 3 höchste Temperaturmesswerte im Wohnzimmer");
 				WriteMeasurements(greatestmeasurements);
 				Console.WriteLine();
 
-				var average = -1; // TODO
+				var average = unitOfWork.MeasurementRepository.GetCo2AvgFromOffice();
 				Console.WriteLine($"Durchschnitt der gültigen Co2-Werte (>300, <5000) im office: {average}");
 				Console.WriteLine();
 				Console.WriteLine("Alle Sensoren mit dem Durchschnitt der Messwerte");
-				// TODO
+				var sensors = unitOfWork.SensorRepository.GetSensorsWithAvgValue();
+				Console.WriteLine($"{"Location", -20}{"Name", -20}{"Value", -20}");
+				foreach (var sensor in sensors)
+				{
+					Console.WriteLine($"{sensor.Location, -20}{sensor.Name, -20}{sensor.Avg,-20 :f2}");
+				}
 			}
 
 			Console.Write("Beenden mit Eingabetaste ...");

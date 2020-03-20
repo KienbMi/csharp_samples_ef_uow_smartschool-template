@@ -6,5 +6,7 @@ namespace SmartSchool.Core.Contracts
     {
         void AddRange(Measurement[] measurements);
         int GetCountLivingRoom();
+        Measurement[] GetGreatestMeasurements();
+        double GetCo2AvgFromOffice();
     }
 }
