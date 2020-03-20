@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartSchool.Core.Contracts;
 using SmartSchool.Core.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SmartSchool.Persistence
@@ -19,6 +20,14 @@ namespace SmartSchool.Persistence
             _dbContext.Measurements.AddRange(measurements);
         }
 
+        public IEnumerable<Measurement> GetAll()
+        {
+            return _dbContext.Measurements
+                .Include(m => m.Sensor)
+                .ToArray();
+        }
+
+
         public double GetCo2AvgFromOffice()
         {
             return _dbContext.Measurements
@@ -36,6 +45,9 @@ namespace SmartSchool.Persistence
                 .Include(m => m.Sensor)
                 .Where(m => m.Sensor.Location.Equals("livingroom") && m.Sensor.Name.Equals("temperature"))
                 .Count();
+            //return GetAll()
+            //    .Where(m => m.Sensor.Location.Equals("livingroom") && m.Sensor.Name.Equals("temperature"))
+            //    .Count();
         }
 
         public Measurement[] GetGreatestMeasurements()

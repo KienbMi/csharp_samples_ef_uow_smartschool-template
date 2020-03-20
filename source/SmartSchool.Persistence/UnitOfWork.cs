@@ -2,6 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.Core.Contracts;
 using System.Linq;
+using Utils;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace SmartSchool.Persistence
 {
@@ -12,9 +17,16 @@ namespace SmartSchool.Persistence
 
         public UnitOfWork()
         {
+            //MyLogger.InitializeLogger();
+
             _dbContext = new ApplicationDbContext();
             MeasurementRepository = new MeasurementRepository(_dbContext);
             SensorRepository = new SensorRepository(_dbContext);
+
+            _dbContext
+                .GetInfrastructure()
+                .GetService<ILoggerFactory>()
+                .AddSerilog();
         }
 
         public IMeasurementRepository MeasurementRepository { get; set; }
